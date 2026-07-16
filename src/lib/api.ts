@@ -59,7 +59,9 @@ export type SearchResponse = {
   expiresAt: string;
 };
 
-const API_URL = process.env.NEXT_PUBLIC_BOOKING_API_URL ?? "http://127.0.0.1:8080";
+const API_URL =
+  process.env.NEXT_PUBLIC_BOOKING_API_URL ??
+  (process.env.NODE_ENV === "production" ? "/api" : "http://127.0.0.1:8080");
 
 export async function searchHotels(request: SearchRequest, signal?: AbortSignal) {
   const response = await fetch(`${API_URL}/v1/hotels/search`, {

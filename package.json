@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start --hostname 127.0.0.1 --port 4173",
     "backend:dev": "cd services/booking-api && go run ./cmd/api",
-    "backend:test": "cd services/booking-api && go test ./..."
+    "backend:test": "go test ./api/... && cd services/booking-api && go test ./..."
   },
   "dependencies": {
     "lucide-react": "^1.24.0",
