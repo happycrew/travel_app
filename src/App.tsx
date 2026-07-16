@@ -1,4 +1,7 @@
+"use client";
+
 import { type FormEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ArrowDownRight,
@@ -157,7 +160,11 @@ function Header() {
 }
 
 function SearchForm() {
+  const router = useRouter();
   const [destination, setDestination] = useState("Стамбул");
+  const [checkIn, setCheckIn] = useState("2026-08-14");
+  const [checkOut, setCheckOut] = useState("2026-08-21");
+  const [guests, setGuests] = useState("2");
   const [searched, setSearched] = useState(false);
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
@@ -165,12 +172,18 @@ function SearchForm() {
     setSearched(true);
     track("hotel_search_submit", {
       destination,
-      check_in: "2026-08-14",
-      check_out: "2026-08-21",
-      guests: 2,
+      check_in: checkIn,
+      check_out: checkOut,
+      guests: Number(guests),
     });
-    document.querySelector("#hotels")?.scrollIntoView({ behavior: "smooth" });
-    window.setTimeout(() => setSearched(false), 2500);
+
+    const params = new URLSearchParams({
+      destination,
+      checkIn,
+      checkOut,
+      guests,
+    });
+    router.push(`/search?${params.toString()}`);
   };
 
   return (
@@ -192,15 +205,15 @@ function SearchForm() {
       </label>
       <label className="search-field">
         <span><CalendarDays size={15} /> Заезд</span>
-        <input type="date" defaultValue="2026-08-14" aria-label="Дата заезда" />
+        <input type="date" value={checkIn} onChange={(event) => setCheckIn(event.target.value)} aria-label="Дата заезда" />
       </label>
       <label className="search-field">
         <span><CalendarDays size={15} /> Выезд</span>
-        <input type="date" defaultValue="2026-08-21" aria-label="Дата выезда" />
+        <input type="date" value={checkOut} onChange={(event) => setCheckOut(event.target.value)} aria-label="Дата выезда" />
       </label>
       <label className="search-field guests-field">
         <span><UsersRound size={15} /> Гости</span>
-        <select defaultValue="2" aria-label="Количество гостей">
+        <select value={guests} onChange={(event) => setGuests(event.target.value)} aria-label="Количество гостей">
           <option value="1">1 гость</option>
           <option value="2">2 гостя</option>
           <option value="3">3 гостя</option>

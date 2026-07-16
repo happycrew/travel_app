@@ -19,7 +19,7 @@ export function track(eventName: string, payload: AnalyticsPayload = {}) {
     window.ym?.(window.__AIFORY_YM_ID__, "reachGoal", eventName, payload);
   }
 
-  if (import.meta.env.DEV) {
+  if (process.env.NODE_ENV === "development") {
     console.info(`[analytics] ${eventName}`, payload);
   }
 }

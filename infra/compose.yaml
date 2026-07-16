@@ -1,0 +1,10 @@
+services:
+  booking-api:
+    build:
+      context: ../services/booking-api
+    environment:
+      PORT: "8080"
+      WEB_ORIGIN: http://127.0.0.1:4173
+      MOCK_PROPERTY_COUNT: "2000"
+    ports:
+      - "8080:8080"

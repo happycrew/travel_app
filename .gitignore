@@ -1,6 +1,9 @@
 node_modules/
 dist/
+.next/
 .vercel/
+coverage.out
+services/booking-api/bin/
 .DS_Store
 *.local
 *.log
